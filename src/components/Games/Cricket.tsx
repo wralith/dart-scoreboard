@@ -1,8 +1,8 @@
-import { Button, Center, Grid, Space } from "@mantine/core"
+import { useState } from "react"
+import { Button, Center, Space } from "@mantine/core"
 
 import { CricketScoreObject, CricketPlayerObject, KeyOfScore } from "./CricketTypes"
 import CricketTable from "./CricketTable"
-import { useState } from "react"
 
 const initialScoreObject: CricketScoreObject = {
     15: 0,
@@ -17,27 +17,30 @@ const initialScoreObject: CricketScoreObject = {
 const initialScores: CricketPlayerObject[] = [
     {
         name: "Player 1",
-        scores: initialScoreObject,
+        scores: { ...initialScoreObject },
     },
     {
         name: "Player 2",
-        scores: initialScoreObject,
+        scores: { ...initialScoreObject },
     },
 ]
 
 function Cricket() {
-    const [points, setPoints] = useState(initialScores)
+    const [points, setPoints] = useState(structuredClone(initialScores))
 
     const onScoreClick = (key: KeyOfScore, player: number) => {
-        console.log(key)
-        console.log(player)
+        const newPoints = [...points]
+        newPoints[player].scores[key] < 3
+            ? newPoints[player].scores[key]++
+            : (newPoints[player].scores[key] = 0)
+        setPoints(newPoints)
     }
 
     return (
         <Center style={{ flexDirection: "column" }}>
             <CricketTable scores={points} onClick={onScoreClick} />
             <Space h="xl" />
-            <Button onClick={() => setPoints(initialScores)}>Restart</Button>
+            <Button onClick={() => setPoints(structuredClone(initialScores))}>Restart</Button>
         </Center>
     )
 }

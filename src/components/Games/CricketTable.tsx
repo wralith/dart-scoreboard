@@ -2,23 +2,13 @@ import { ActionIcon, Center, Table } from "@mantine/core"
 import CricketSingle from "./CricketSingle"
 import { CricketPlayerObject, KeyOfScore } from "./CricketTypes"
 
-// const scores = [
-//     { name: 15, player1: 0, player2: 0 },
-//     { name: 16, player1: 1, player2: 3 },
-//     { name: 17, player1: 0, player2: 2 },
-//     { name: 18, player1: 0, player2: 0 },
-//     { name: 19, player1: 3, player2: 0 },
-//     { name: 20, player1: 2, player2: 1 },
-//     { name: "Bullseye", player1: 2, player2: 1 },
-// ]
-
 interface Props {
     scores: CricketPlayerObject[]
     onClick: (key: KeyOfScore, player: number) => void
 }
 
 function CricketTable({ scores, onClick }: Props) {
-    const scoresArray = [
+    let scoresArray = [
         { name: 15, player1: scores[0].scores[15], player2: scores[1].scores[15] },
         { name: 16, player1: scores[0].scores[16], player2: scores[1].scores[16] },
         { name: 17, player1: scores[0].scores[17], player2: scores[1].scores[17] },
