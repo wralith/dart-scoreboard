@@ -5,18 +5,35 @@ import { CricketPlayerObject, KeyOfScore } from "./CricketTypes"
 interface Props {
     scores: CricketPlayerObject[]
     onClick: (key: KeyOfScore, player: number) => void
+    isPlus: boolean
 }
 
-function CricketTable({ scores, onClick }: Props) {
-    let scoresArray = [
-        { name: 15, player1: scores[0].scores[15], player2: scores[1].scores[15] },
-        { name: 16, player1: scores[0].scores[16], player2: scores[1].scores[16] },
-        { name: 17, player1: scores[0].scores[17], player2: scores[1].scores[17] },
-        { name: 18, player1: scores[0].scores[18], player2: scores[1].scores[18] },
-        { name: 19, player1: scores[0].scores[19], player2: scores[1].scores[19] },
-        { name: 20, player1: scores[0].scores[20], player2: scores[1].scores[20] },
-        { name: 21, player1: scores[0].scores[21], player2: scores[1].scores[21] },
-    ]
+const ScoreName = ( number: number) => {
+    if (number === 21) return "Bullseye"
+    if (number === 1) return "3D"
+    if (number === 2) return "Double"
+    if (number === 3) return "Triple"
+}
+
+function CricketTable({ scores, onClick, isPlus }: Props) {
+    let scoresArray = []
+    for (let i = isPlus ? 12 : 15; i <= 21; i++) {
+        scoresArray.push({
+            name: i,
+            player1: scores[0].scores[i as KeyOfScore] || 0,
+            player2: scores[1].scores[i as KeyOfScore] || 0,
+        })
+    }
+
+    if (isPlus) {
+        for (let i = 1; i <= 3; i++) {
+            scoresArray.push({
+                name: i,
+                player1: scores[0].scores[i as KeyOfScore] || 0,
+                player2: scores[1].scores[i as KeyOfScore] || 0,
+            })
+        }
+    }
 
     const rows = scoresArray.map(score => (
         <tr key={score.name}>
@@ -32,7 +49,9 @@ function CricketTable({ scores, onClick }: Props) {
                     </ActionIcon>
                 </Center>
             </td>
-            <td>{score.name == 21 ? "Bullseye" : score.name}</td>
+            <td>
+                {ScoreName(score.name) || score.name}
+            </td>
             <td>
                 <Center>
                     <ActionIcon
@@ -48,7 +67,7 @@ function CricketTable({ scores, onClick }: Props) {
         </tr>
     ))
     return (
-        <Table striped style={{ textAlign: "center" }} verticalSpacing="md">
+        <Table striped style={{ textAlign: "center" }} verticalSpacing={isPlus ? 2 : "md"}>
             <thead>
                 <tr>
                     <th style={{ textAlign: "center" }}>Player1</th>

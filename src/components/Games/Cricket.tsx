@@ -1,32 +1,19 @@
-import { useState } from "react"
-import { Button, Center, Space } from "@mantine/core"
+import { useEffect, useState } from "react"
+import { Button, Center, Group, Space, Switch } from "@mantine/core"
 
-import { CricketScoreObject, CricketPlayerObject, KeyOfScore } from "./CricketTypes"
+import { KeyOfScore } from "./CricketTypes"
 import CricketTable from "./CricketTable"
-
-const initialScoreObject: CricketScoreObject = {
-    15: 0,
-    16: 0,
-    17: 0,
-    18: 0,
-    19: 0,
-    20: 0,
-    21: 0,
-}
-
-const initialScores: CricketPlayerObject[] = [
-    {
-        name: "Player 1",
-        scores: { ...initialScoreObject },
-    },
-    {
-        name: "Player 2",
-        scores: { ...initialScoreObject },
-    },
-]
+import { initialScores } from "./CricketObjects"
 
 function Cricket() {
-    const [points, setPoints] = useState(structuredClone(initialScores))
+    const [isPlus, setIsPlus] = useState(false)
+    const [points, setPoints] = useState(structuredClone(initialScores(isPlus)))
+
+    useEffect(() => {
+        setPoints(structuredClone(initialScores(isPlus)))
+    }, [isPlus])
+
+    console.log(points)
 
     const onScoreClick = (key: KeyOfScore, player: number) => {
         const newPoints = [...points]
@@ -38,9 +25,20 @@ function Cricket() {
 
     return (
         <Center style={{ flexDirection: "column" }}>
-            <CricketTable scores={points} onClick={onScoreClick} />
+            <CricketTable scores={points} onClick={onScoreClick} isPlus={isPlus} />
             <Space h="xl" />
-            <Button onClick={() => setPoints(structuredClone(initialScores))}>Restart</Button>
+            <Group>
+                <Button onClick={() => setPoints(structuredClone(initialScores(isPlus)))}>
+                    Restart
+                </Button>
+                <Switch
+                    checked={isPlus}
+                    onChange={() => setIsPlus(!isPlus)}
+                    size="xl"
+                    offLabel="Plus"
+                    onLabel="Plus"
+                />
+            </Group>
         </Center>
     )
 }
