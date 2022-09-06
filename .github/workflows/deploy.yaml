@@ -1,0 +1,25 @@
+name: Deploy
+
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    deploy:
+        name: Build and Deploy
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+            - name: Setup Node
+              uses: actions/setup-node@v2
+
+            - name: Build
+              run: npm install && npm run build
+
+            - name: Deploy
+              uses: JamesIves/github-pages-deploy-action@v4
+              with:
+                  branch: gh-pages
+                  folder: dist # The folder the action should deploy.
