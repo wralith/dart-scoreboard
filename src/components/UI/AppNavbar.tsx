@@ -5,7 +5,13 @@ import { Link, useLocation } from "react-router-dom"
 function AppNavbar() {
     const location = useLocation()
     return (
-        <Box style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
+        <Box
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100%",
+            }}>
             <Box>
                 <NavLink
                     label="Home"
@@ -27,7 +33,7 @@ function AppNavbar() {
                 icon={<IconBrandGithub size={20} />}
                 description="Source Code"
                 component="a"
-                href=""
+                href="https://github.com/wralith/dart-scoreboard"
             />
         </Box>
     )
