@@ -1,29 +1,33 @@
 import { ActionIcon, Center, Table } from "@mantine/core"
+import { Config } from "./CricketConfig"
 import CricketSingle from "./CricketSingle"
 import { CricketPlayerObject, KeyOfScore } from "./CricketTypes"
 
 interface Props {
     scores: CricketPlayerObject[]
+    config: Config
     onClick: (key: KeyOfScore, player: number) => void
     isPlus: boolean
 }
 
-const ScoreName = ( number: number) => {
+const ScoreName = (number: number) => {
     if (number === 21) return "Bullseye"
     if (number === 1) return "3D"
     if (number === 2) return "Double"
     if (number === 3) return "Triple"
 }
 
-function CricketTable({ scores, onClick, isPlus }: Props) {
+function CricketTable({ scores, onClick, isPlus, config }: Props) {
     let scoresArray = []
-    for (let i = isPlus ? 12 : 15; i <= 21; i++) {
-        scoresArray.push({
+    for (let i = isPlus ? 12 : 15; i <= 20; i++) {
+        scoresArray.unshift({
             name: i,
             player1: scores[0].scores[i as KeyOfScore] || 0,
             player2: scores[1].scores[i as KeyOfScore] || 0,
         })
     }
+
+    scoresArray.push({ name: 21, player1: scores[0].scores[21], player2: scores[1].scores[21] })
 
     if (isPlus) {
         for (let i = 1; i <= 3; i++) {
@@ -35,31 +39,31 @@ function CricketTable({ scores, onClick, isPlus }: Props) {
         }
     }
 
-    const rows = scoresArray.map(score => (
+    const rows = scoresArray.map((score) => (
         <tr key={score.name}>
             <td>
                 <Center>
                     <ActionIcon
-                        variant="light"
+                        variant={config.buttonType}
                         color="blue"
                         size="xl"
                         onClick={() => onClick(score.name as KeyOfScore, 0)}
-                        key={score.name + 10}>
+                        key={score.name + 10}
+                    >
                         <CricketSingle score={score.player1} />
                     </ActionIcon>
                 </Center>
             </td>
-            <td>
-                {ScoreName(score.name) || score.name}
-            </td>
+            <td>{ScoreName(score.name) || score.name}</td>
             <td>
                 <Center>
                     <ActionIcon
-                        variant="light"
+                        variant={config.buttonType}
                         color="blue"
                         size="xl"
                         onClick={() => onClick(score.name as KeyOfScore, 1)}
-                        key={score.name + 20}>
+                        key={score.name + 20}
+                    >
                         <CricketSingle score={score.player2} />
                     </ActionIcon>
                 </Center>
@@ -70,9 +74,9 @@ function CricketTable({ scores, onClick, isPlus }: Props) {
         <Table striped style={{ textAlign: "center" }} verticalSpacing={isPlus ? 2 : "md"}>
             <thead>
                 <tr>
-                    <th style={{ textAlign: "center" }}>Player1</th>
+                    <th style={{ textAlign: "center" }}>{config.player1Name}</th>
                     <th style={{ textAlign: "center" }}>Goals</th>
-                    <th style={{ textAlign: "center" }}>Player2</th>
+                    <th style={{ textAlign: "center" }}>{config.player2Name}</th>
                 </tr>
             </thead>
             <tbody>{rows}</tbody>

@@ -1,4 +1,4 @@
-import { IconCheck, IconCircle0, IconCircle1, IconCircle2 } from "@tabler/icons"
+import { IconCheck, IconFocus, IconTarget, IconTargetOff } from "@tabler/icons"
 
 interface Props {
     score: number
@@ -8,16 +8,16 @@ const iconSize = 28
 
 function CricketSingle({ score }: Props) {
     if (score === 1) {
-        return <IconCircle1 size={iconSize} />
+        return <IconTarget size={iconSize}  color="orange" />
     }
     if (score === 2) {
-        return <IconCircle2 size={iconSize} />
+        return <IconTargetOff size={iconSize} color="red" />
     }
     if (score === 3) {
         return <IconCheck size={iconSize + 6} color="green" />
     }
 
-    return <IconCircle0 size={iconSize} />
+    return <IconFocus size={iconSize} color="blue" />
 }
 
 export default CricketSingle
