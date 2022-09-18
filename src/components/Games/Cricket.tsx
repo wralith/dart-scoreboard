@@ -1,21 +1,32 @@
 import { useEffect, useState } from "react"
 import { Button, Center, Group, Space, Switch } from "@mantine/core"
+import { showNotification } from "@mantine/notifications"
 
 import { KeyOfScore } from "./CricketTypes"
 import CricketTable from "./CricketTable"
-import { initialScores } from "./CricketObjects"
+import { initialPlayerScores, initialScores } from "./CricketObjects"
 import CricketConfig, { Config } from "./CricketConfig"
+import { Fireworks } from "@fireworks-js/react"
 
 const initialConfig: Config = {
     player1Name: "Player 1",
     player2Name: "Player 2",
-    buttonType: "default"
+    buttonType: "default",
 }
 
 function Cricket() {
     const [isPlus, setIsPlus] = useState(false)
     const [points, setPoints] = useState(structuredClone(initialScores(isPlus)))
     const [config, setConfig] = useState(initialConfig)
+    const [showFireworks, setShowFireworks] = useState(false)
+
+    const isPlayer1Win = Object.values(points[0].scores).every((score) => score === 1)
+    const isPlayer2Win = Object.values(points[1].scores).every((score) => score === 1)
+    const resetScores = (obj: any) =>
+        Object.keys(obj[0].scores).forEach((key) => {
+            obj[0].scores[key] = 0
+            obj[1].scores[key] = 0
+        })
 
     useEffect(() => {
         setPoints(structuredClone(initialScores(isPlus)))
@@ -26,13 +37,47 @@ function Cricket() {
         newPoints[player].scores[key] < 3
             ? newPoints[player].scores[key]++
             : (newPoints[player].scores[key] = 0)
+
+        // TODO: Extract this to useEffect
+        if (isPlayer1Win || isPlayer2Win) {
+            if (isPlayer1Win) {
+                newPoints[0].legs++
+            }
+            if (isPlayer2Win) {
+                newPoints[1].legs++
+            }
+            const winnerName = isPlayer1Win ? newPoints[0].name : newPoints[1].name
+
+            showNotification({
+                title: `${winnerName} won a leg!`,
+                message: `Congratulations ${winnerName}!!!`,
+            })
+
+            setShowFireworks(true)
+            setTimeout(() => {
+                setShowFireworks(false)
+            }, 5000)
+
+            resetScores(newPoints)
+            setPoints(newPoints)
+            return
+        }
+
         setPoints(newPoints)
     }
 
     return (
         <>
+            {showFireworks && (
+                <Fireworks style={{ position: "fixed", width: "100%", height: "80%" }} />
+            )}
             <Center style={{ flexDirection: "column" }}>
-                <CricketTable scores={points} onClick={onScoreClick} isPlus={isPlus} config={config} />
+                <CricketTable
+                    scores={points}
+                    onClick={onScoreClick}
+                    isPlus={isPlus}
+                    config={config}
+                />
                 <Space h="xl" />
                 <Group>
                     <Button onClick={() => setPoints(structuredClone(initialScores(isPlus)))}>

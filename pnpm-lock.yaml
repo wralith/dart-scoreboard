@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@emotion/react': ^11.10.4
+  '@fireworks-js/react': ^2.0.4
   '@mantine/core': ^5.2.5
   '@mantine/hooks': ^5.2.5
   '@mantine/notifications': ^5.2.5
@@ -18,6 +19,7 @@ specifiers:
 
 dependencies:
   '@emotion/react': 11.10.4_7v64pk2mkrohwh22gx7lrz5ive
+  '@fireworks-js/react': 2.0.4_7v64pk2mkrohwh22gx7lrz5ive
   '@mantine/core': 5.2.5_2fzd5ndmsav6akanjxusvf2mry
   '@mantine/hooks': 5.2.5_react@18.2.0
   '@mantine/notifications': 5.2.5_plpcbmlz7dbawa5iqclffpdpya
@@ -415,6 +417,17 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@fireworks-js/react/2.0.4_7v64pk2mkrohwh22gx7lrz5ive:
+    resolution: {integrity: sha512-IN3Yb8+xvS6+3IqmEfqEzHmrkCQELaxb4dzC/ByHLnQktlxoo7npdN6ja17dzWufYR2gCDjnLC/5kGYm7U3jxA==}
+    peerDependencies:
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+    dependencies:
+      '@types/react': 18.0.18
+      fireworks-js: 2.0.2
+      react: 18.2.0
+    dev: false
 
   /@floating-ui/core/0.7.3:
     resolution: {integrity: sha512-buc8BXHmG9l82+OQXOFU3Kr2XQx9ys01U/Q9HMIrZ300iLc8HLMgh7dcCqgYzAzf4BkoQvDcXf5Y+CuEZ5JBYg==}
@@ -1152,6 +1165,10 @@ packages:
       locate-path: 5.0.0
       path-exists: 4.0.0
     dev: true
+
+  /fireworks-js/2.0.2:
+    resolution: {integrity: sha512-W3AMuZokjdG1Y9sOGRohAlZJ4itlk6/6swv0jkF+MPFgt2zr+s8WhOOT0CAcpBUYsSK1LDuFinsP0u5s7BJvQQ==}
+    dev: false
 
   /fs-extra/8.1.0:
     resolution: {integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==}

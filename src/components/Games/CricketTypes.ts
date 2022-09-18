@@ -17,6 +17,7 @@ export interface CricketScoreObject {
 export interface CricketPlayerObject {
     name: string
     scores: CricketScoreObject
+    legs: number
 }
 
 export type KeyOfScore = keyof CricketScoreObject

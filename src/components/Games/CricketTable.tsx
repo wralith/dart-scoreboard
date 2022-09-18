@@ -78,6 +78,11 @@ function CricketTable({ scores, onClick, isPlus, config }: Props) {
                     <th style={{ textAlign: "center" }}>Goals</th>
                     <th style={{ textAlign: "center" }}>{config.player2Name}</th>
                 </tr>
+                <tr>
+                    <th style={{ textAlign: "center", fontSize: "1.5rem" }}>{scores[0].legs}</th>
+                    <th style={{ textAlign: "center" }}>Legs</th>
+                    <th style={{ textAlign: "center", fontSize: "1.5rem" }}>{scores[1].legs}</th>
+                </tr>
             </thead>
             <tbody>{rows}</tbody>
         </Table>

@@ -26,13 +26,20 @@ export const initialCricketPlusScoreObject: CricketScoreObject = {
     21: 0,
 }
 
+export const initialPlayerScores: (
+    isPlus?: boolean
+) => typeof initialCricketScoreObject | typeof initialCricketPlusScoreObject = (isPlus = false) =>
+    isPlus ? initialCricketPlusScoreObject : initialCricketScoreObject
+
 export const initialScores: (isPlus?: boolean) => CricketPlayerObject[] = (isPlus = false) => [
     {
         name: "Player 1",
         scores: { ...(!isPlus ? initialCricketScoreObject : initialCricketPlusScoreObject) },
+        legs: 0,
     },
     {
         name: "Player 2",
         scores: { ...(!isPlus ? initialCricketScoreObject : initialCricketPlusScoreObject) },
+        legs: 0,
     },
 ]

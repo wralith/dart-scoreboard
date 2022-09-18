@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "@emotion/react": "^11.10.4",
+        "@fireworks-js/react": "^2.0.4",
         "@mantine/core": "^5.2.5",
         "@mantine/hooks": "^5.2.5",
         "@mantine/notifications": "^5.2.5",
