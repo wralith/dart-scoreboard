@@ -7,6 +7,7 @@ import CricketTable from "./CricketTable"
 import { initialPlayerScores, initialScores } from "./CricketObjects"
 import CricketConfig, { Config } from "./CricketConfig"
 import { Fireworks } from "@fireworks-js/react"
+import { IconCheck } from "@tabler/icons"
 
 const initialConfig: Config = {
     player1Name: "Player 1",
@@ -20,8 +21,8 @@ function Cricket() {
     const [config, setConfig] = useState(initialConfig)
     const [showFireworks, setShowFireworks] = useState(false)
 
-    const isPlayer1Win = Object.values(points[0].scores).every((score) => score === 1)
-    const isPlayer2Win = Object.values(points[1].scores).every((score) => score === 1)
+    const isPlayer1Win = Object.values(points[0].scores).every((score) => score === 3)
+    const isPlayer2Win = Object.values(points[1].scores).every((score) => score === 3)
     const resetScores = (obj: any) =>
         Object.keys(obj[0].scores).forEach((key) => {
             obj[0].scores[key] = 0
@@ -38,7 +39,11 @@ function Cricket() {
             ? newPoints[player].scores[key]++
             : (newPoints[player].scores[key] = 0)
 
-        // TODO: Extract this to useEffect
+        setPoints(newPoints)
+    }
+
+    useEffect(() => {
+        const newPoints = [...points]
         if (isPlayer1Win || isPlayer2Win) {
             if (isPlayer1Win) {
                 newPoints[0].legs++
@@ -46,9 +51,11 @@ function Cricket() {
             if (isPlayer2Win) {
                 newPoints[1].legs++
             }
-            const winnerName = isPlayer1Win ? newPoints[0].name : newPoints[1].name
+            const winnerName = isPlayer1Win ? config.player1Name : config.player2Name
 
             showNotification({
+                icon: <IconCheck size={18} />,
+                color: "teal",
                 title: `${winnerName} won a leg!`,
                 message: `Congratulations ${winnerName}!!!`,
             })
@@ -59,12 +66,8 @@ function Cricket() {
             }, 5000)
 
             resetScores(newPoints)
-            setPoints(newPoints)
-            return
         }
-
-        setPoints(newPoints)
-    }
+    }, [points])
 
     return (
         <>
